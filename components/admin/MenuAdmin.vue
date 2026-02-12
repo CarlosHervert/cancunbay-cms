@@ -42,76 +42,81 @@ export default {
       group: null,
       items: [
         {
-          title: 'Banner home',
-          icon: 'mdi-image-area',
-          link: '/bannerHome',
+          title: "Banner home",
+          icon: "mdi-image-area",
+          link: "/bannerHome",
         },
         {
-          title: 'Catálogo Icons',
-          icon: 'mdi-book-open-variant',
-          link: '/iconsCatalogo',
+          title: "Banner Principal",
+          icon: "mdi-image-area",
+          link: "/bannerPrincipal",
         },
         {
-          title: 'Categorías',
-          icon: 'mdi-book-open-variant',
-          link: '/categorias',
+          title: "Catálogo Icons",
+          icon: "mdi-book-open-variant",
+          link: "/iconsCatalogo",
         },
         {
-          title: 'Destinos',
-          icon: 'mdi-map-plus',
-          link: '/destinos',
+          title: "Categorías",
+          icon: "mdi-book-open-variant",
+          link: "/categorias",
         },
         {
-          title: 'Categorías/Destinos',
-          icon: 'mdi-vector-link',
-          link: '/relacionCategoriaDestino',
+          title: "Destinos",
+          icon: "mdi-map-plus",
+          link: "/destinos",
         },
         {
-          title: 'Tours',
-          icon: 'mdi-island',
-          link: '/tours',
+          title: "Categorías/Destinos",
+          icon: "mdi-vector-link",
+          link: "/relacionCategoriaDestino",
         },
         {
-          title: 'Usuarios',
-          icon: 'mdi-account-group-outline',
-          link: '/usuarios',
+          title: "Tours",
+          icon: "mdi-island",
+          link: "/tours",
         },
         {
-          title: 'Idiomas',
-          icon: 'mdi-translate',
-          link: '/idiomas',
+          title: "Usuarios",
+          icon: "mdi-account-group-outline",
+          link: "/usuarios",
         },
         {
-          title: 'Tipo de cambio',
-          icon: 'mdi-currency-usd',
-          link: '/tipoCambio',
+          title: "Idiomas",
+          icon: "mdi-translate",
+          link: "/idiomas",
         },
         {
-          title: 'Bloqueo de fechas,diás',
-          icon: 'mdi-timer-off',
-          link: '/bloqueoFechas',
+          title: "Tipo de cambio",
+          icon: "mdi-currency-usd",
+          link: "/tipoCambio",
         },
         {
-          title: 'Promocodes',
-          icon: 'mdi-sale',
-          link: '/promocode',
+          title: "Bloqueo de fechas,diás",
+          icon: "mdi-timer-off",
+          link: "/bloqueoFechas",
+        },
+        {
+          title: "Promocodes",
+          icon: "mdi-sale",
+          link: "/promocode",
         },
 
         {
-          title: 'Reservas',
-          icon: 'mdi-cash-register',
-          link: '/reservas',
+          title: "Reservas",
+          icon: "mdi-cash-register",
+          link: "/reservas",
         },
       ],
-    }
+    };
   },
 
   watch: {
     group() {
-      this.drawer = false
+      this.drawer = false;
     },
   },
-}
+};
 </script>
 <style scoped>
 a {
