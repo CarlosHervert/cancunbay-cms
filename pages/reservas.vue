@@ -582,289 +582,289 @@ export default {
     show3: false,
     error: null,
     dialog: false,
-    search: '',
+    search: "",
     idRegistro: 0,
     idTour: 0,
     dialogoCancelacion: false,
-    textoDialogoCancelacion: '',
+    textoDialogoCancelacion: "",
     dialogoEdit: false,
 
     headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Email', value: 'email' },
-      { text: 'Create Date', value: 'created_at' },
-      { text: 'Total', value: 'total' },
-      { text: 'Currency', value: 'currency' },
-      { text: 'Actions', value: 'actions', sortable: false },
+      { text: "Name", value: "name" },
+      { text: "Email", value: "email" },
+      { text: "Create Date", value: "created_at" },
+      { text: "Total", value: "total" },
+      { text: "Currency", value: "currency" },
+      { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
     dataTours: [],
     dataClient: [],
-    dateStart: '',
-    dateEnd: '',
+    dateStart: "",
+    dateEnd: "",
     start_date: false,
     end_date: false,
     errorStartDate: false,
     errorFecha: false,
     conDatos: true,
     alertMensajes: false,
-    typeAlertaMensaje: 'success',
-    textoAlertaMesaje: '',
+    typeAlertaMensaje: "success",
+    textoAlertaMesaje: "",
     module: 17,
     btnView: false,
     btnGenerate: false,
-    editDateTour: '',
-    buscaStatus: 'Completed',
-    itemsStatus: ['Approved','Completed', 'Cancelled', 'Refunded'],
+    editDateTour: "",
+    buscaStatus: "Completed",
+    itemsStatus: ["Approved", "Completed", "Cancelled", "Refunded", "Pending"],
     btnCancel: false,
     btnRembolso: false,
     btnEdit: false,
     dialogoReembolso: false,
-    cantidadQuita: '',
-    cantidadManda: '0.00',
-    totalTour: '',
-    textoTotalTour: '',
-    razon: ['Duplicate', 'Requested by customer', 'Fraudulent'],
-    selectRazon: '',
+    cantidadQuita: "",
+    cantidadManda: "0.00",
+    totalTour: "",
+    textoTotalTour: "",
+    razon: ["Duplicate", "Requested by customer", "Fraudulent"],
+    selectRazon: "",
     mensajeA: false,
-    typeAlerta: 'success',
-    textoAlerta: '',
+    typeAlerta: "success",
+    textoAlerta: "",
     isLoadingA: false,
-    dataNameTour: '',
+    dataNameTour: "",
     dialogNoData: false,
     errorFechasMsn:
-      'Debe seleccionar una fecha inicial, si busca un rango específico de fechas.',
+      "Debe seleccionar una fecha inicial, si busca un rango específico de fechas.",
   }),
 
   computed: {
     formTitle() {
       // return this.editedIndex === -1 ? 'Nuevo usuario' : 'Editar usuario'
-      return 'Detalle de reservación'
+      return "Detalle de reservación";
     },
   },
 
   watch: {
     dialog(val) {
-      val || this.close()
-      this.alertMensajes = false
+      val || this.close();
+      this.alertMensajes = false;
     },
     cantidadQuita() {
-      const res = (this.cantidadQuita / 100) * this.totalTour
-      this.cantidadManda = res.toFixed(2)
+      const res = (this.cantidadQuita / 100) * this.totalTour;
+      this.cantidadManda = res.toFixed(2);
     },
   },
 
   created() {
-    this.getRegistros()
-    this.getMeLvelUser()
+    this.getRegistros();
+    this.getMeLvelUser();
   },
 
   methods: {
     async getRegistros() {
-      this.alertMensajes = false
-      this.dialogNoData = false
+      this.alertMensajes = false;
+      this.dialogNoData = false;
       try {
-        this.alertMensajes = false
+        this.alertMensajes = false;
         await this.$axios
-          .post('/getAllReservation', {
+          .post("/getAllReservation", {
             typeBook: this.buscaStatus,
             start_date: this.dateStart,
             end_date: this.dateEnd,
           })
           .then((resp) => {
-            this.desserts = resp.data
-            this.cargandoTabla = false
-            this.conDatos = true
-          })
+            this.desserts = resp.data;
+            this.cargandoTabla = false;
+            this.conDatos = true;
+          });
       } catch (error) {
         // this.error = e.response.data.message;
         // console.log("error" + e);
         // this.alertMensajes = true
         // this.conDatos = false
-        this.typeAlertaMensaje = 'error'
-        this.textoAlertaMesaje = `No existen reservaciones : ${error.response.status} . ${error.response.data.message}`
-        this.dialogNoData = true
+        this.typeAlertaMensaje = "error";
+        this.textoAlertaMesaje = `No existen reservaciones : ${error.response.status} . ${error.response.data.message}`;
+        this.dialogNoData = true;
       }
     },
 
     getDetailResevation() {
       try {
         this.$axios
-          .post('/getDetailReservation', { id: this.idRegistro })
+          .post("/getDetailReservation", { id: this.idRegistro })
           .then((resp) => {
-            this.dataTours = resp.data
-            this.dataNameTour = resp.data.nameTour
-          })
+            this.dataTours = resp.data;
+            this.dataNameTour = resp.data.nameTour;
+          });
       } catch (e) {
-        this.error = e.response.data.message
-        console.log('error' + e)
+        this.error = e.response.data.message;
+        console.log("error" + e);
         // this.textoAlertaMesaje = `se ha encontrado un error: ${error.response.status} . ${error.response.data.message}`
       }
     },
 
     async cvsReservation() {
-      this.errorFecha = false
+      this.errorFecha = false;
 
       // if (this.dateEnd !== '' && this.dateStart === '') {
       if (this.dateStart.length === 0) {
-        this.errorFecha = true
-        return false
+        this.errorFecha = true;
+        return false;
       }
       try {
         await this.$axios
-          .post('/cvsReservation', {
+          .post("/cvsReservation", {
             start_date: this.dateStart,
             end_date: this.dateEnd,
-            responseType: 'blob',
+            responseType: "blob",
           })
           .then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]))
-            const link = document.createElement('a')
-            link.href = url
-            link.setAttribute('download', 'reporte.csv')
-            document.body.appendChild(link)
-            link.click()
-          })
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "reporte.csv");
+            document.body.appendChild(link);
+            link.click();
+          });
       } catch (e) {
-        this.error = e.response.data.message
-        this.errorFechasMsn = e.response.data.message
-        this.errorFecha = true
-        console.log('error' + e.response.data.message)
+        this.error = e.response.data.message;
+        this.errorFechasMsn = e.response.data.message;
+        this.errorFecha = true;
+        console.log("error" + e.response.data.message);
       }
     },
 
     editItem(item) {
       // this.editedIndex = this.desserts.indexOf(item)
-      this.idRegistro = item.payment_clients_id
-      this.dataClient = Object.assign({}, item)
-      this.dialog = true
-      this.getDetailResevation()
+      this.idRegistro = item.payment_clients_id;
+      this.dataClient = Object.assign({}, item);
+      this.dialog = true;
+      this.getDetailResevation();
     },
 
     close() {
-      this.dialog = false
-      this.idRegistro = 0
+      this.dialog = false;
+      this.idRegistro = 0;
     },
 
     limpiar() {
-      this.dateStart = ''
-      this.dateEnd = ''
-      this.errorFecha = false
-      this.getRegistros()
+      this.dateStart = "";
+      this.dateEnd = "";
+      this.errorFecha = false;
+      this.getRegistros();
     },
 
     getMeLvelUser() {
       try {
         this.$axios
-          .post('/getMeLevelUser', {
+          .post("/getMeLevelUser", {
             idUser: this.$store.state.auth.user.id,
             idModule: this.module,
           })
           .then((resp) => {
-            const aux = resp.data.data
+            const aux = resp.data.data;
             for (let a = 0; a < aux.length; a++) {
-              if (aux[a].cms_actions_id === 5) this.btnView = true
-              if (aux[a].cms_actions_id === 10) this.btnEdit = true
-              if (aux[a].cms_actions_id === 11) this.btnCancel = true
-              if (aux[a].cms_actions_id === 9) this.btnRembolso = true
-              if (aux[a].cms_actions_id === 6) this.btnGenerate = true
+              if (aux[a].cms_actions_id === 5) this.btnView = true;
+              if (aux[a].cms_actions_id === 10) this.btnEdit = true;
+              if (aux[a].cms_actions_id === 11) this.btnCancel = true;
+              if (aux[a].cms_actions_id === 9) this.btnRembolso = true;
+              if (aux[a].cms_actions_id === 6) this.btnGenerate = true;
             }
-          })
+          });
       } catch (e) {
-        this.error = e.response.data.message
-        console.log('error' + e)
+        this.error = e.response.data.message;
+        console.log("error" + e);
       }
     },
 
     cancelAlert(item) {
-      this.dialogoCancelacion = true
-      this.idRegistro = item.id
-      this.textoDialogoCancelacion = `You want to cancel the tour: ${item.name} ?`
+      this.dialogoCancelacion = true;
+      this.idRegistro = item.id;
+      this.textoDialogoCancelacion = `You want to cancel the tour: ${item.name} ?`;
     },
 
     continuaCancelacion(item) {
       this.$axios
-        .post('/cancelTour', {
+        .post("/cancelTour", {
           id: this.idRegistro,
           userId: this.$store.state.auth.user.id,
           userName: this.$store.state.auth.user.name,
         })
         .then((response) => {
-          this.dialogoCancelacion = false
-          this.getRegistros()
+          this.dialogoCancelacion = false;
+          this.getRegistros();
         })
         .catch((error) => {
-          console.log(error)
-          this.idRegistro = 0
+          console.log(error);
+          this.idRegistro = 0;
           this.textoDialogoCancelacion =
-            'The tour you are trying to delete does not exist or was previously deleted'
-        })
+            "The tour you are trying to delete does not exist or was previously deleted";
+        });
     },
 
     editAlert(item) {
-      this.dialogoEdit = true
-      this.idRegistro = item.id
-      this.idTour = item.tours_id
-      this.editDateTour = item.date
+      this.dialogoEdit = true;
+      this.idRegistro = item.id;
+      this.idTour = item.tours_id;
+      this.editDateTour = item.date;
     },
 
     continuaEdicion(item) {
       this.$axios
-        .post('/editTourBook', {
+        .post("/editTourBook", {
           id: this.idRegistro,
           idTour: this.idTour,
           date: this.editDateTour,
         })
         .then((response) => {
-          this.dialogoEdit = false
-          this.getRegistros()
+          this.dialogoEdit = false;
+          this.getRegistros();
         })
         .catch((error) => {
-          console.log(error)
-          this.idRegistro = 0
-          this.textoDialogoCancelacion = 'Some error to try edit date'
-        })
+          console.log(error);
+          this.idRegistro = 0;
+          this.textoDialogoCancelacion = "Some error to try edit date";
+        });
     },
 
     refundAlert(item) {
-      this.dialogoReembolso = true
-      this.cantidadQuita = ''
-      this.cantidadManda = '0.00'
-      this.selectRazon = ''
-      this.idRegistro = item.authorization
-      this.idTour = item.id
-      this.totalTour = item.total
-      this.textoTotalTour = `$ ${item.total + ' ' + item.currency}`
+      this.dialogoReembolso = true;
+      this.cantidadQuita = "";
+      this.cantidadManda = "0.00";
+      this.selectRazon = "";
+      this.idRegistro = item.authorization;
+      this.idTour = item.id;
+      this.totalTour = item.total;
+      this.textoTotalTour = `$ ${item.total + " " + item.currency}`;
     },
 
     continuaRefund(item) {
-      let ban = true
-      this.mensajeA = false
-      this.typeAlerta = 'success'
-      this.textoAlerta = ''
-      this.isLoadingA = false
+      let ban = true;
+      this.mensajeA = false;
+      this.typeAlerta = "success";
+      this.textoAlerta = "";
+      this.isLoadingA = false;
 
-      if (this.cantidadQuita === '' && ban) {
-        this.textoAlerta = 'You must enter a refund percentage'
-        ban = false
+      if (this.cantidadQuita === "" && ban) {
+        this.textoAlerta = "You must enter a refund percentage";
+        ban = false;
       }
-      if (this.cantidadManda === '' && ban) {
+      if (this.cantidadManda === "" && ban) {
         this.textoAlerta =
-          'You must enter a refund percentageThe refund amount must be greater than zero'
-        ban = false
+          "You must enter a refund percentageThe refund amount must be greater than zero";
+        ban = false;
       }
-      if (this.selectRazon === '' && ban) {
-        this.textoAlerta = 'You must select a refund reason'
-        ban = false
+      if (this.selectRazon === "" && ban) {
+        this.textoAlerta = "You must select a refund reason";
+        ban = false;
       }
       if (!ban) {
-        this.mensajeA = true
-        this.typeAlerta = 'alert'
+        this.mensajeA = true;
+        this.typeAlerta = "alert";
       }
       if (ban) {
-        this.isLoadingA = true
+        this.isLoadingA = true;
         this.$axios
-          .post('/refundTourBook', {
+          .post("/refundTourBook", {
             id: this.idRegistro,
             amount: this.cantidadManda,
             reason: this.selectRazon,
@@ -872,51 +872,51 @@ export default {
             userName: this.$store.state.auth.user.name,
           })
           .then((response) => {
-            this.dialogoReembolso = false
-            this.getRegistros()
+            this.dialogoReembolso = false;
+            this.getRegistros();
           })
           .catch((error) => {
-            this.isLoadingA = false
-            console.log(error)
+            this.isLoadingA = false;
+            console.log(error);
             // this.idRegistro = 0;
             // this.idTour = 0;
-            this.mensajeA = true
-            this.typeAlerta = 'alert'
-            this.textoAlerta = `Some error to try refund : ${error.response.status} . ${error.response.data.message}`
-          })
+            this.mensajeA = true;
+            this.typeAlerta = "alert";
+            this.textoAlerta = `Some error to try refund : ${error.response.status} . ${error.response.data.message}`;
+          });
       }
     },
 
     reSendEmailItem(item) {
-      this.isLoading = true
-      this.alertMensajes = true
-      this.typeAlertaMensaje = 'success'
-      this.textoAlertaMesaje = 'Enviando por favor espere...'
+      this.isLoading = true;
+      this.alertMensajes = true;
+      this.typeAlertaMensaje = "success";
+      this.textoAlertaMesaje = "Enviando por favor espere...";
       this.$axios
-        .post('/resendEmail', {
+        .post("/resendEmail", {
           id: item.payment_clients_id,
           email: item.email,
           userName: this.$store.state.auth.user.name,
-          idioma: item.language === 'ing' ? 2 : 1,
+          idioma: item.language === "ing" ? 2 : 1,
         })
         .then((response) => {
-          this.isLoading = false
-          this.alertMensajes = false
+          this.isLoading = false;
+          this.alertMensajes = false;
           // this.typeAlertaMensaje = 'success'
           // this.textoAlertaMesaje = 'Enviando por favor espere...'
         })
         .catch((error) => {
-          this.isLoadingA = false
-          console.log(error)
+          this.isLoadingA = false;
+          console.log(error);
           // this.idRegistro = 0;
           // this.idTour = 0;
-          this.mensajeA = true
-          this.typeAlerta = 'alert'
-          this.textoAlerta = `Some error to try refund : ${error.response.status} . ${error.response.data.message}`
-        })
+          this.mensajeA = true;
+          this.typeAlerta = "alert";
+          this.textoAlerta = `Some error to try refund : ${error.response.status} . ${error.response.data.message}`;
+        });
     },
   },
-}
+};
 </script>
 <!--
 <style scope lang="css">
